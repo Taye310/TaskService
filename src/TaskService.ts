@@ -1,6 +1,6 @@
 class TaskService {
     private observerList: Observer[];
-    private taskList: Task[];
+    public static taskList=new Array<Task>();
     private static instance: TaskService = null;
     
     constructor() {
@@ -13,27 +13,70 @@ class TaskService {
         }
         return this.instance;
     }
-    public finish(id: string): ErrorCode {
-        var taskPanel = new TaskPanel();
-        for (var i = 0; i < this.taskList.length; i++) {
-            if (this.taskList[i].id == id) {
-                taskPanel.onChange(this.taskList[i]);
-                return ErrorCode.SUCCESS;
-            }
-        }
-    }
-    public accept(id: string): void {
-        for (var i = 0; i < this.taskList.length; i++) {
-            if (this.taskList[i].id == id) {
+    // public finish(id: string): ErrorCode {
+    //     var taskPanel = new TaskPanel();
+    //     for (var i = 0; i < TaskService.taskList.length; i++) {
+    //         if (TaskService.taskList[i].id == id) {
+    //             taskPanel.onChange(TaskService.taskList[i]);
+    //             return ErrorCode.SUCCESS;
+    //         }
+    //     }
+    // }
+    // public accept(id: string): void {
+    //     var taskPanel = new TaskPanel();
+    //     for (var i = 0; i < TaskService.length; i++) {
+    //         if (TaskService.taskList[i].id == id) {
+    //             taskPanel.onChange(TaskService.taskList[i]);
                 
-            }
+    //         }
+    //     }
+    // }
+    accept(id: string) {
+        if (!id) {
+            return ErrorCode.FAILED;
+        }
+        let task = TaskService.taskList[id];
+        if (task.id == id) {
+            task.status = TaskStatus.CAN_SUMBIT;
+            this.notify(TaskService.taskList[id]);
+            console.log("111");
+            return ErrorCode.SUCCESS;
+        }
+        else {
+            return ErrorCode.FAILED;
+        }
+
+    }
+
+    finish(id: string) {
+        if (!id) {
+            return ErrorCode.FAILED;
+        }
+        let task = TaskService.taskList[id];
+        if (task.id == id) {
+            task.status = TaskStatus.SUBMITTED;
+            this.notify(TaskService.taskList[id]);
+          
+            return ErrorCode.SUCCESS;
+        }
+        else {
+            return ErrorCode.FAILED;
         }
     }
-    private getTaskByCustomRole(rule: Function): Task {
-
-        return
+    public getTaskByCustomRole(rule: Function): Task {
+        return rule();
     }
-    private notify(): void {
+    private notify(task:Task): void {
+        for (var observer of this.observerList) {
+            observer.onChange(task);
+        }
+    }
 
+    public addObserver(observer: Observer) {
+        for (var i = 0; i < this.observerList.length; i++) {
+            if (observer == this.observerList[i])
+                return ErrorCode.FAILED;
+        }
+        this.observerList.push(observer);
     }
 }

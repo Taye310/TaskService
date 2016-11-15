@@ -2,9 +2,11 @@ var TaskPanel = (function (_super) {
     __extends(TaskPanel, _super);
     function TaskPanel() {
         _super.call(this);
+        this.textField = new egret.TextField;
         this.panel = new egret.Shape;
         this.panel.x = 0;
         this.panel.y = 0;
+        this.textField.text = "----";
         this.panel.graphics.clear();
         this.panel.graphics.clear();
         this.panel.graphics.beginFill(0x000000, 0.5);

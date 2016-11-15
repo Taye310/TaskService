@@ -108,10 +108,22 @@ var Main = (function (_super) {
         var NPC_1 = new NPC("npc_1", 500, 20, "npc_1_png");
         this.addChild(NPC_0);
         this.addChild(NPC_1);
-        this.task1 = new Task("task1", "对话任务", TaskStatus.ACCEPTABLE, "desc", "npc_0", "npc_1");
+        var taskList = new Array();
+        taskList[0] = new Task("task1", "对话任务", TaskStatus.ACCEPTABLE, "desc", "npc_0", "npc_1");
         var instance = TaskService.getInstance(); //danli
         var taskPanel = new TaskPanel();
         this.addChild(taskPanel);
+        for (var i = 0; i < taskList.length; i++) {
+            TaskService.taskList[i] = instance.getTaskByCustomRole(function addTask() {
+                if (taskList[i].status == TaskStatus.UNACCEPTABLE || taskList[i].status == TaskStatus.SUBMITTED) {
+                    taskList[i] == null;
+                }
+                return taskList[i];
+            });
+        }
+        // for(var task of taskList){
+        //     console.log(task.name);
+        // }
     };
     /**
      * 根据name关键字创建一个Bitmap对象。name属性请参考resources/resource.json配置文件的内容。

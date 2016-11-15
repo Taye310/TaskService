@@ -1,11 +1,12 @@
 class TaskPanel extends egret.DisplayObjectContainer implements Observer{
-    public textField:egret.TextField;
+    public textField=new egret.TextField;
     private panel:egret.Shape=new egret.Shape;
 
     constructor(){
         super();
         this.panel.x=0;
         this.panel.y=0;
+        this.textField.text="----";
         this.panel.graphics.clear();
         this.panel.graphics.clear();
         this.panel.graphics.beginFill(0x000000, 0.5);

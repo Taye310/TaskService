@@ -33,14 +33,14 @@ class Main extends egret.DisplayObjectContainer {
      * 加载进度界面
      * Process interface loading
      */
-    private loadingView:LoadingUI;
+    private loadingView: LoadingUI;
 
     public constructor() {
         super();
         this.addEventListener(egret.Event.ADDED_TO_STAGE, this.onAddToStage, this);
     }
 
-    private onAddToStage(event:egret.Event) {
+    private onAddToStage(event: egret.Event) {
         //设置加载进度界面
         //Config to load process interface
         this.loadingView = new LoadingUI();
@@ -56,7 +56,7 @@ class Main extends egret.DisplayObjectContainer {
      * 配置文件加载完成,开始预加载preload资源组。
      * configuration file loading is completed, start to pre-load the preload resource group
      */
-    private onConfigComplete(event:RES.ResourceEvent):void {
+    private onConfigComplete(event: RES.ResourceEvent): void {
         RES.removeEventListener(RES.ResourceEvent.CONFIG_COMPLETE, this.onConfigComplete, this);
         RES.addEventListener(RES.ResourceEvent.GROUP_COMPLETE, this.onResourceLoadComplete, this);
         RES.addEventListener(RES.ResourceEvent.GROUP_LOAD_ERROR, this.onResourceLoadError, this);
@@ -69,7 +69,7 @@ class Main extends egret.DisplayObjectContainer {
      * preload资源组加载完成
      * Preload resource group is loaded
      */
-    private onResourceLoadComplete(event:RES.ResourceEvent):void {
+    private onResourceLoadComplete(event: RES.ResourceEvent): void {
         if (event.groupName == "preload") {
             this.stage.removeChild(this.loadingView);
             RES.removeEventListener(RES.ResourceEvent.GROUP_COMPLETE, this.onResourceLoadComplete, this);
@@ -84,7 +84,7 @@ class Main extends egret.DisplayObjectContainer {
      * 资源组加载出错
      *  The resource group loading failed
      */
-    private onItemLoadError(event:RES.ResourceEvent):void {
+    private onItemLoadError(event: RES.ResourceEvent): void {
         console.warn("Url:" + event.resItem.url + " has failed to load");
     }
 
@@ -92,7 +92,7 @@ class Main extends egret.DisplayObjectContainer {
      * 资源组加载出错
      *  The resource group loading failed
      */
-    private onResourceLoadError(event:RES.ResourceEvent):void {
+    private onResourceLoadError(event: RES.ResourceEvent): void {
         //TODO
         console.warn("Group:" + event.groupName + " has failed to load");
         //忽略加载失败的项目
@@ -104,43 +104,56 @@ class Main extends egret.DisplayObjectContainer {
      * preload资源组加载进度
      * Loading process of preload resource group
      */
-    private onResourceProgress(event:RES.ResourceEvent):void {
+    private onResourceProgress(event: RES.ResourceEvent): void {
         if (event.groupName == "preload") {
             this.loadingView.setProgress(event.itemsLoaded, event.itemsTotal);
         }
     }
 
-    private bg:egret.Bitmap=new egret.Bitmap();
-    public task1:Task;
+    private bg: egret.Bitmap = new egret.Bitmap();
+
+
     /**
      * 创建游戏场景
      * Create a game scene
      */
-    private createGameScene():void {
-        this.bg.texture=RES.getRes("bg_jpg");
+    private createGameScene(): void {
+        this.bg.texture = RES.getRes("bg_jpg");
         this.addChild(this.bg);
-        
-        var NPC_0=new NPC("npc_0",20,500,"npc_0_png");
-        var NPC_1=new NPC("npc_1",500,20,"npc_1_png");
+
+        var NPC_0 = new NPC("npc_0", 20, 500, "npc_0_png");
+        var NPC_1 = new NPC("npc_1", 500, 20, "npc_1_png");
         this.addChild(NPC_0);
         this.addChild(NPC_1);
 
-        this.task1=new Task("task1","对话任务",TaskStatus.ACCEPTABLE,"desc","npc_0","npc_1");
-        var instance=TaskService.getInstance();//danli
+        var taskList=new Array<Task>();
+        taskList[0] = new Task("task1", "对话任务", TaskStatus.ACCEPTABLE, "desc", "npc_0", "npc_1");
+        var instance = TaskService.getInstance();//danli
 
-        var taskPanel=new TaskPanel();
+        var taskPanel = new TaskPanel();
         this.addChild(taskPanel);
 
-        TaskService.
+
+        for (var i = 0; i < taskList.length; i++) {
+            TaskService.taskList[i] = instance.getTaskByCustomRole(function addTask() {
+                if (taskList[i].status == TaskStatus.UNACCEPTABLE || taskList[i].status == TaskStatus.SUBMITTED) {
+                    taskList[i] == null;
+                }
+                return taskList[i];
+            });
+        }
+        // for(var task of taskList){
+        //     console.log(task.name);
+        // }
     }
 
     /**
      * 根据name关键字创建一个Bitmap对象。name属性请参考resources/resource.json配置文件的内容。
      * Create a Bitmap object according to name keyword.As for the property of name please refer to the configuration file of resources/resource.json.
      */
-    private createBitmapByName(name:string):egret.Bitmap {
+    private createBitmapByName(name: string): egret.Bitmap {
         var result = new egret.Bitmap();
-        var texture:egret.Texture = RES.getRes(name);
+        var texture: egret.Texture = RES.getRes(name);
         result.texture = texture;
         return result;
     }
