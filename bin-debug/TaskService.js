@@ -26,7 +26,7 @@ var TaskService = (function () {
     //         }
     //     }
     // }
-    p.accept = function (id) {
+    TaskService.accept = function (id) {
         if (!id) {
             return ErrorCode.FAILED;
         }
@@ -41,7 +41,7 @@ var TaskService = (function () {
             return ErrorCode.FAILED;
         }
     };
-    p.finish = function (id) {
+    TaskService.finish = function (id) {
         if (!id) {
             return ErrorCode.FAILED;
         }
@@ -58,18 +58,18 @@ var TaskService = (function () {
     p.getTaskByCustomRole = function (rule) {
         return rule();
     };
-    p.notify = function (task) {
+    TaskService.notify = function (task) {
         for (var _i = 0, _a = this.observerList; _i < _a.length; _i++) {
             var observer = _a[_i];
             observer.onChange(task);
         }
     };
     p.addObserver = function (observer) {
-        for (var i = 0; i < this.observerList.length; i++) {
-            if (observer == this.observerList[i])
+        for (var i = 0; i < TaskService.observerList.length; i++) {
+            if (observer == TaskService.observerList[i])
                 return ErrorCode.FAILED;
         }
-        this.observerList.push(observer);
+        TaskService.observerList.push(observer);
     };
     TaskService.taskList = new Array();
     TaskService.instance = null;

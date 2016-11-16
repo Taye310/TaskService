@@ -1,5 +1,5 @@
 class TaskService {
-    private observerList: Observer[];
+    private static observerList: Observer[];
     public static taskList=new Array<Task>();
     private static instance: TaskService = null;
     
@@ -31,7 +31,7 @@ class TaskService {
     //         }
     //     }
     // }
-    accept(id: string) {
+    static accept(id: string) {
         if (!id) {
             return ErrorCode.FAILED;
         }
@@ -48,7 +48,7 @@ class TaskService {
 
     }
 
-    finish(id: string) {
+    static finish(id: string) {
         if (!id) {
             return ErrorCode.FAILED;
         }
@@ -66,17 +66,17 @@ class TaskService {
     public getTaskByCustomRole(rule: Function): Task {
         return rule();
     }
-    private notify(task:Task): void {
+    private static notify(task:Task): void {
         for (var observer of this.observerList) {
             observer.onChange(task);
         }
     }
 
     public addObserver(observer: Observer) {
-        for (var i = 0; i < this.observerList.length; i++) {
-            if (observer == this.observerList[i])
+        for (var i = 0; i < TaskService.observerList.length; i++) {
+            if (observer == TaskService.observerList[i])
                 return ErrorCode.FAILED;
         }
-        this.observerList.push(observer);
+        TaskService.observerList.push(observer);
     }
 }

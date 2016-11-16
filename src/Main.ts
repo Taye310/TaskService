@@ -122,7 +122,7 @@ class Main extends egret.DisplayObjectContainer {
         this.addChild(this.bg);
 
         var NPC_0 = new NPC("npc_0", 20, 500, "npc_0_png");
-        var NPC_1 = new NPC("npc_1", 500, 20, "npc_1_png");
+        var NPC_1 = new NPC("npc_1", 500, 100, "npc_1_png");
         this.addChild(NPC_0);
         this.addChild(NPC_1);
 
