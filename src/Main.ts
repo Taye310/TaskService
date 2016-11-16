@@ -133,7 +133,6 @@ class Main extends egret.DisplayObjectContainer {
         var taskPanel = new TaskPanel();
         this.addChild(taskPanel);
 
-
         for (var i = 0; i < taskList.length; i++) {
             TaskService.taskList[i] = instance.getTaskByCustomRole(function addTask() {
                 if (taskList[i].status == TaskStatus.UNACCEPTABLE || taskList[i].status == TaskStatus.SUBMITTED) {

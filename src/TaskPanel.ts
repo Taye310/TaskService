@@ -18,5 +18,6 @@ class TaskPanel extends egret.DisplayObjectContainer implements Observer{
 
     public onChange(task:Task){
         this.textField.text=task.name+"finished";
+        console.log("111");
     }
 }

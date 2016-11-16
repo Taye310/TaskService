@@ -33,7 +33,7 @@ var TaskService = (function () {
         var task = TaskService.taskList[id];
         if (task.id == id) {
             task.status = TaskStatus.CAN_SUMBIT;
-            this.notify(TaskService.taskList[id]);
+            TaskService.notify(TaskService.taskList[id]);
             console.log("111");
             return ErrorCode.SUCCESS;
         }
@@ -48,7 +48,7 @@ var TaskService = (function () {
         var task = TaskService.taskList[id];
         if (task.id == id) {
             task.status = TaskStatus.SUBMITTED;
-            this.notify(TaskService.taskList[id]);
+            TaskService.notify(TaskService.taskList[id]);
             return ErrorCode.SUCCESS;
         }
         else {

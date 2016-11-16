@@ -18,6 +18,7 @@ var TaskPanel = (function (_super) {
     var d = __define,c=TaskPanel,p=c.prototype;
     p.onChange = function (task) {
         this.textField.text = task.name + "finished";
+        console.log("111");
     };
     return TaskPanel;
 }(egret.DisplayObjectContainer));

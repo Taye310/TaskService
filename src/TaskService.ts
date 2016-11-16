@@ -35,10 +35,10 @@ class TaskService {
         if (!id) {
             return ErrorCode.FAILED;
         }
-        let task = TaskService.taskList[id];
+        let task= TaskService.taskList[id];
         if (task.id == id) {
             task.status = TaskStatus.CAN_SUMBIT;
-            this.notify(TaskService.taskList[id]);
+            TaskService.notify(TaskService.taskList[id]);
             console.log("111");
             return ErrorCode.SUCCESS;
         }
@@ -55,7 +55,7 @@ class TaskService {
         let task = TaskService.taskList[id];
         if (task.id == id) {
             task.status = TaskStatus.SUBMITTED;
-            this.notify(TaskService.taskList[id]);
+            TaskService.notify(TaskService.taskList[id]);
           
             return ErrorCode.SUCCESS;
         }

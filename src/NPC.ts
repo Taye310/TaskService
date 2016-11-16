@@ -10,17 +10,26 @@ class NPC extends egret.DisplayObjectContainer implements Observer {
         this._chara.x = x;
         this._chara.y = y
         this._chara.texture = RES.getRes(texture);
-        this.addChild(this._chara);
+        
         this._emoji.x=x;
-        this._emoji.y=y+80;
-        this.addChild(this._emoji);
+        this._emoji.y=y-40;
+        this._emoji.scaleX=2;
+        this._emoji.scaleY=2;
+        
         this._emoji.addEventListener(egret.TouchEvent.TOUCH_TAP, this.onNPCClick, this);
+        this._emoji.touchEnabled=true;
+        this._chara.addEventListener(egret.TouchEvent.TOUCH_TAP, this.onNPCClick, this);
+        this._chara.touchEnabled=true;
+        console.log("npc");
+        this.addChild(this._chara);
+        this.addChild(this._emoji);
     }
 
-    private onNPCClick() {
-        var dialogPanel = new DialoguePanel(this);
-
-
+    private onNPCClick(e:egret.TouchEvent) {
+        var dialogPanel = new DialoguePanel(this._chara);
+        console.log(this._chara.x)
+        this.addChild(dialogPanel);
+        console.log("npcclick");
     }
     public onChange(task: Task) {
         switch (task.status) {

@@ -10,15 +10,24 @@ var NPC = (function (_super) {
         this._chara.x = x;
         this._chara.y = y;
         this._chara.texture = RES.getRes(texture);
-        this.addChild(this._chara);
         this._emoji.x = x;
-        this._emoji.y = y + 80;
-        this.addChild(this._emoji);
+        this._emoji.y = y - 40;
+        this._emoji.scaleX = 2;
+        this._emoji.scaleY = 2;
         this._emoji.addEventListener(egret.TouchEvent.TOUCH_TAP, this.onNPCClick, this);
+        this._emoji.touchEnabled = true;
+        this._chara.addEventListener(egret.TouchEvent.TOUCH_TAP, this.onNPCClick, this);
+        this._chara.touchEnabled = true;
+        console.log("npc");
+        this.addChild(this._chara);
+        this.addChild(this._emoji);
     }
     var d = __define,c=NPC,p=c.prototype;
-    p.onNPCClick = function () {
-        var dialogPanel = new DialoguePanel(this);
+    p.onNPCClick = function (e) {
+        var dialogPanel = new DialoguePanel(this._chara);
+        console.log(this._chara.x);
+        this.addChild(dialogPanel);
+        console.log("npcclick");
     };
     p.onChange = function (task) {
         switch (task.status) {
