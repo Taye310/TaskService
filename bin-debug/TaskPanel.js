@@ -14,6 +14,7 @@ var TaskPanel = (function (_super) {
         this.panel.graphics.endFill();
         this.addChild(this.panel);
         this.addChild(this.textField);
+        TaskService.addObserver(this);
     }
     var d = __define,c=TaskPanel,p=c.prototype;
     p.onChange = function (task) {

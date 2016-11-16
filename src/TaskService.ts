@@ -1,5 +1,5 @@
 class TaskService {
-    private static observerList: Observer[];
+    private static observerList=new Array<Observer>();
     public static taskList=new Array<Task>();
     private static instance: TaskService = null;
     
@@ -36,10 +36,11 @@ class TaskService {
             return ErrorCode.FAILED;
         }
         let task= TaskService.taskList[id];
+        console.log(id);
         if (task.id == id) {
             task.status = TaskStatus.CAN_SUMBIT;
             TaskService.notify(TaskService.taskList[id]);
-            console.log("111");
+            
             return ErrorCode.SUCCESS;
         }
         else {
@@ -72,7 +73,7 @@ class TaskService {
         }
     }
 
-    public addObserver(observer: Observer) {
+    public static addObserver(observer: Observer) {
         for (var i = 0; i < TaskService.observerList.length; i++) {
             if (observer == TaskService.observerList[i])
                 return ErrorCode.FAILED;

@@ -23,6 +23,8 @@ class NPC extends egret.DisplayObjectContainer implements Observer {
         console.log("npc");
         this.addChild(this._chara);
         this.addChild(this._emoji);
+
+        TaskService.addObserver(this);
     }
 
     private onNPCClick(e:egret.TouchEvent) {

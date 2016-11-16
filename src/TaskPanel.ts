@@ -14,6 +14,7 @@ class TaskPanel extends egret.DisplayObjectContainer implements Observer{
         this.panel.graphics.endFill();
         this.addChild(this.panel);
         this.addChild(this.textField);
+        TaskService.addObserver(this);
     }
 
     public onChange(task:Task){

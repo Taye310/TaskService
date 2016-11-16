@@ -31,10 +31,10 @@ var TaskService = (function () {
             return ErrorCode.FAILED;
         }
         var task = TaskService.taskList[id];
+        console.log(id);
         if (task.id == id) {
             task.status = TaskStatus.CAN_SUMBIT;
             TaskService.notify(TaskService.taskList[id]);
-            console.log("111");
             return ErrorCode.SUCCESS;
         }
         else {
@@ -64,13 +64,14 @@ var TaskService = (function () {
             observer.onChange(task);
         }
     };
-    p.addObserver = function (observer) {
+    TaskService.addObserver = function (observer) {
         for (var i = 0; i < TaskService.observerList.length; i++) {
             if (observer == TaskService.observerList[i])
                 return ErrorCode.FAILED;
         }
         TaskService.observerList.push(observer);
     };
+    TaskService.observerList = new Array();
     TaskService.taskList = new Array();
     TaskService.instance = null;
     return TaskService;

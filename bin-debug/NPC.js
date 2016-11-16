@@ -21,6 +21,7 @@ var NPC = (function (_super) {
         console.log("npc");
         this.addChild(this._chara);
         this.addChild(this._emoji);
+        TaskService.addObserver(this);
     }
     var d = __define,c=NPC,p=c.prototype;
     p.onNPCClick = function (e) {

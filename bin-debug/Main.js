@@ -109,7 +109,7 @@ var Main = (function (_super) {
         this.addChild(NPC_0);
         this.addChild(NPC_1);
         var taskList = new Array();
-        taskList[0] = new Task("task1", "对话任务", TaskStatus.ACCEPTABLE, "desc", "npc_0", "npc_1");
+        taskList[0] = new Task("0", "对话任务", TaskStatus.ACCEPTABLE, "desc", "npc_0", "npc_1");
         var instance = TaskService.getInstance(); //danli
         var taskPanel = new TaskPanel();
         this.addChild(taskPanel);
@@ -121,6 +121,7 @@ var Main = (function (_super) {
                 return taskList[i];
             });
         }
+        console.log(TaskService.taskList[0]);
         // for(var task of taskList){
         //     console.log(task.name);
         // }
