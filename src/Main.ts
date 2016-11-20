@@ -121,11 +121,6 @@ class Main extends egret.DisplayObjectContainer {
         this.bg.texture = RES.getRes("bg_jpg");
         this.addChild(this.bg);
 
-        var NPC_0 = new NPC("npc_0", 20, 500, "npc_0_png");
-        var NPC_1 = new NPC("npc_1", 500, 100, "npc_1_png");
-        this.addChild(NPC_0);
-        this.addChild(NPC_1);
-
         var taskList=new Array<Task>();
         taskList[0] = new Task("0", "对话任务", TaskStatus.ACCEPTABLE, "desc", "npc_0", "npc_1");
         var instance = TaskService.getInstance();//danli
@@ -141,6 +136,10 @@ class Main extends egret.DisplayObjectContainer {
                 return taskList[i];
             });
         }
+        var NPC_0 = new NPC("npc_0", 20, 500, "npc_0_png");
+        var NPC_1 = new NPC("npc_1", 500, 100, "npc_1_png");
+        this.addChild(NPC_0);
+        this.addChild(NPC_1);
         console.log(TaskService.taskList[0]);
         // for(var task of taskList){
         //     console.log(task.name);

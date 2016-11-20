@@ -8,7 +8,6 @@ var TaskPanel = (function (_super) {
         this.panel.y = 0;
         this.textField.text = "----";
         this.panel.graphics.clear();
-        this.panel.graphics.clear();
         this.panel.graphics.beginFill(0x000000, 0.5);
         this.panel.graphics.drawRect(0, 0, 250, 300);
         this.panel.graphics.endFill();
@@ -18,8 +17,17 @@ var TaskPanel = (function (_super) {
     }
     var d = __define,c=TaskPanel,p=c.prototype;
     p.onChange = function (task) {
-        this.textField.text = task.name + "finished";
-        console.log("111");
+        for (var i = 0; i < TaskService.taskList.length; i++) {
+            switch (TaskService.taskList[i].status) {
+                case TaskStatus.DURING:
+                    this.textField.text = task.name + "during";
+                    break;
+                case TaskStatus.SUBMITTED:
+                    this.textField.text = task.name + "finished";
+                    console.log("111");
+                    break;
+            }
+        }
     };
     return TaskPanel;
 }(egret.DisplayObjectContainer));

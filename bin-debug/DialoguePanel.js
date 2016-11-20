@@ -4,24 +4,31 @@ var DialoguePanel = (function (_super) {
         _super.call(this);
         this._textField = new egret.TextField;
         this._button = new egret.Bitmap();
-        this.x = chara.x;
-        this.y = chara.y;
-        this.width = 300;
-        this.height = 200;
+        this.panel = new egret.Shape;
+        this.panel.x = 400;
+        this.panel.y = 400;
+        this.panel.graphics.clear();
+        this.panel.graphics.beginFill(0x000000, 0.5);
+        this.panel.graphics.drawRect(0, 0, 250, 300);
+        this.panel.graphics.endFill();
         this._button.scaleX = 3;
         this._button.scaleY = 3;
-        //console.log(this.x+this.y);
-        this._button.x = 80;
-        this._button.y = 80;
+        this._button.x = 500;
+        this._button.y = 400;
         this._button.texture = RES.getRes("gtanhao_png");
-        this._textField.text = "可接受!";
-        this.addChild(this._button);
+        this._textField.x = 400;
+        this._textField.y = 400;
+        this._textField.text = "与npc1对话!";
+        this.addChild(this.panel);
         this.addChild(this._textField);
+        this.addChild(this._button);
         this._button.addEventListener(egret.TouchEvent.TOUCH_TAP, this.onButtonClick, this);
         this._button.touchEnabled = true;
+        console.log(TaskService.taskList[0].status);
     }
     var d = __define,c=DialoguePanel,p=c.prototype;
     p.onButtonClick = function (e) {
+        console.log(TaskService.taskList[0].status);
         for (var i = 0; i < TaskService.taskList.length; i++) {
             switch (TaskService.taskList[i].status) {
                 case TaskStatus.ACCEPTABLE:
