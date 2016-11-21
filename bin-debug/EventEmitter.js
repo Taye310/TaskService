@@ -1,5 +1,18 @@
-var TaskService = (function () {
+var EventEmitter = (function () {
+    function EventEmitter() {
+    }
+    var d = __define,c=EventEmitter,p=c.prototype;
+    p.addObserver = function (observer) {
+    };
+    p.notify = function (task) {
+    };
+    return EventEmitter;
+}());
+egret.registerClass(EventEmitter,'EventEmitter');
+var TaskService = (function (_super) {
+    __extends(TaskService, _super);
     function TaskService() {
+        _super.call(this);
     }
     var d = __define,c=TaskService,p=c.prototype;
     //danli
@@ -9,32 +22,16 @@ var TaskService = (function () {
         }
         return this.instance;
     };
-    // public finish(id: string): ErrorCode {
-    //     var taskPanel = new TaskPanel();
-    //     for (var i = 0; i < TaskService.taskList.length; i++) {
-    //         if (TaskService.taskList[i].id == id) {
-    //             taskPanel.onChange(TaskService.taskList[i]);
-    //             return ErrorCode.SUCCESS;
-    //         }
-    //     }
-    // }
-    // public accept(id: string): void {
-    //     var taskPanel = new TaskPanel();
-    //     for (var i = 0; i < TaskService.length; i++) {
-    //         if (TaskService.taskList[i].id == id) {
-    //             taskPanel.onChange(TaskService.taskList[i]);
-    //         }
-    //     }
-    // }
+    p.onChange = function (task) {
+    };
     TaskService.accept = function (id) {
         if (!id) {
             return ErrorCode.FAILED;
         }
         var task = TaskService.taskList[id];
-        console.log(id);
         if (task.id == id) {
-            task.status = TaskStatus.CAN_SUMBIT;
-            TaskService.notify(TaskService.taskList[id]);
+            task.status = TaskStatus.DURING;
+            TaskService.notify(task);
             return ErrorCode.SUCCESS;
         }
         else {
@@ -48,7 +45,7 @@ var TaskService = (function () {
         var task = TaskService.taskList[id];
         if (task.id == id) {
             task.status = TaskStatus.SUBMITTED;
-            TaskService.notify(TaskService.taskList[id]);
+            TaskService.notify(task);
             return ErrorCode.SUCCESS;
         }
         else {
@@ -63,6 +60,7 @@ var TaskService = (function () {
             var observer = _a[_i];
             observer.onChange(task);
         }
+        console.log(TaskService.taskList[0].status);
     };
     TaskService.addObserver = function (observer) {
         for (var i = 0; i < TaskService.observerList.length; i++) {
@@ -75,6 +73,6 @@ var TaskService = (function () {
     TaskService.taskList = new Array();
     TaskService.instance = null;
     return TaskService;
-}());
-egret.registerClass(TaskService,'TaskService');
-//# sourceMappingURL=TaskService.js.map
+}(EventEmitter));
+egret.registerClass(TaskService,'TaskService',["Observer"]);
+//# sourceMappingURL=EventEmitter.js.map

@@ -1,5 +1,10 @@
-var Task = (function () {
+var Task = (function (_super) {
+    __extends(Task, _super);
+    //public condition:TaskCondition;
     function Task(id, name, status, desc, fromNpcId, toNpcId) {
+        _super.call(this);
+        this._current = 0;
+        this._total = 0;
         this._id = id;
         this._name = name;
         this._status = status;
@@ -31,7 +36,32 @@ var Task = (function () {
             return this._desc;
         }
     );
+    d(p, "current"
+        ,function () {
+            return this._current;
+        }
+    );
+    p.checkStatus = function () {
+        if (this.current > this._total) {
+        }
+        if (this._status == TaskStatus.DURING && this.current >= this._total) {
+            this._status = TaskStatus.CAN_SUMBIT;
+        }
+    };
     return Task;
-}());
-egret.registerClass(Task,'Task');
+}(EventEmitter));
+egret.registerClass(Task,'Task',["TaskConditionContext"]);
+var TaskStatus;
+(function (TaskStatus) {
+    TaskStatus[TaskStatus["UNACCEPTABLE"] = 0] = "UNACCEPTABLE";
+    TaskStatus[TaskStatus["ACCEPTABLE"] = 1] = "ACCEPTABLE";
+    TaskStatus[TaskStatus["DURING"] = 2] = "DURING";
+    TaskStatus[TaskStatus["CAN_SUMBIT"] = 3] = "CAN_SUMBIT";
+    TaskStatus[TaskStatus["SUBMITTED"] = 4] = "SUBMITTED";
+})(TaskStatus || (TaskStatus = {}));
+var ErrorCode;
+(function (ErrorCode) {
+    ErrorCode[ErrorCode["SUCCESS"] = 0] = "SUCCESS";
+    ErrorCode[ErrorCode["FAILED"] = 1] = "FAILED";
+})(ErrorCode || (ErrorCode = {}));
 //# sourceMappingURL=Task.js.map

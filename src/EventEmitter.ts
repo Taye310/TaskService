@@ -1,45 +1,42 @@
-class TaskService {
+class EventEmitter {
+
+    addObserver(observer: Observer){
+
+    }
+    notify(task: Task){
+
+    }
+}
+
+class TaskService extends EventEmitter implements Observer{
     private static observerList=new Array<Observer>();
     public static taskList=new Array<Task>();
     private static instance: TaskService = null;
     
     constructor() {
-        
+        super();
     }
     //danli
     public static getInstance(){
         if( this.instance == null ) {
             this.instance = new TaskService();
         }
+        
         return this.instance;
     }
-    // public finish(id: string): ErrorCode {
-    //     var taskPanel = new TaskPanel();
-    //     for (var i = 0; i < TaskService.taskList.length; i++) {
-    //         if (TaskService.taskList[i].id == id) {
-    //             taskPanel.onChange(TaskService.taskList[i]);
-    //             return ErrorCode.SUCCESS;
-    //         }
-    //     }
-    // }
-    // public accept(id: string): void {
-    //     var taskPanel = new TaskPanel();
-    //     for (var i = 0; i < TaskService.length; i++) {
-    //         if (TaskService.taskList[i].id == id) {
-    //             taskPanel.onChange(TaskService.taskList[i]);
-                
-    //         }
-    //     }
-    // }
+    onChange(task:Task){
+        
+    }
+    
     static accept(id: string) {
         if (!id) {
             return ErrorCode.FAILED;
         }
         let task= TaskService.taskList[id];
-        console.log(id);
+        
         if (task.id == id) {
-            task.status = TaskStatus.CAN_SUMBIT;
-            TaskService.notify(TaskService.taskList[id]);
+            task.status = TaskStatus.DURING;
+            TaskService.notify(task);
             
             return ErrorCode.SUCCESS;
         }
@@ -56,13 +53,14 @@ class TaskService {
         let task = TaskService.taskList[id];
         if (task.id == id) {
             task.status = TaskStatus.SUBMITTED;
-            TaskService.notify(TaskService.taskList[id]);
+            TaskService.notify(task);
           
             return ErrorCode.SUCCESS;
         }
         else {
             return ErrorCode.FAILED;
         }
+        
     }
     public getTaskByCustomRole(rule: Function): Task {
         return rule();
@@ -71,6 +69,7 @@ class TaskService {
         for (var observer of this.observerList) {
             observer.onChange(task);
         }
+        console.log(TaskService.taskList[0].status);
     }
 
     public static addObserver(observer: Observer) {

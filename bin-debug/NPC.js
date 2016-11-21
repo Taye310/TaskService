@@ -15,8 +15,14 @@ var NPC = (function (_super) {
         this._emoji.scaleX = 2;
         this._emoji.scaleY = 2;
         this._emoji.addEventListener(egret.TouchEvent.TOUCH_TAP, this.onNPCClick, this);
-        this._emoji.touchEnabled = true;
         this._chara.addEventListener(egret.TouchEvent.TOUCH_TAP, this.onNPCClick, this);
+        for (var i = 0; i < TaskService.taskList.length; i++) {
+            if (this._id == TaskService.taskList[i].fromNPCId) {
+                this._emoji.texture = RES.getRes("ytanhao_png");
+                console.log("emoji");
+            }
+        }
+        this._emoji.touchEnabled = true;
         this._chara.touchEnabled = true;
         console.log("npc");
         this.addChild(this._chara);
@@ -25,21 +31,41 @@ var NPC = (function (_super) {
     }
     var d = __define,c=NPC,p=c.prototype;
     p.onNPCClick = function (e) {
-        var dialogPanel = new DialoguePanel(this._chara);
-        console.log(this._chara.x);
-        this.addChild(dialogPanel);
-        console.log("npcclick");
+        for (var i = 0; i < TaskService.taskList.length; i++) {
+            switch (TaskService.taskList[i].status) {
+                case TaskStatus.ACCEPTABLE:
+                    var dialogPanel = new DialoguePanel(this._chara);
+                    this.addChild(dialogPanel);
+                    // for (var i = 0; i < TaskService.taskList.length; i++) {
+                    //     if (this._id == TaskService.taskList[i].fromNPCId) {
+                    //         this._emoji.touchEnabled = false;
+                    //         this._chara.touchEnabled = false;
+                    //     }
+                    //     if (this._id == TaskService.taskList[0].toNPCId) {
+                    //         this._emoji.touchEnabled = true;
+                    //         this._chara.touchEnabled = true;
+                    //         console.log("to touch enable")
+                    //     }
+                    // }
+                    break;
+                case TaskStatus.DURING:
+                    this._emoji.texture = RES.getRes("ywenhao_png");
+                    TaskService.taskList[i].status = TaskStatus.CAN_SUMBIT;
+                    break;
+            }
+        }
+        console.log(TaskService.taskList[0].status);
     };
     p.onChange = function (task) {
         switch (task.status) {
             case TaskStatus.ACCEPTABLE:
-                this._emoji.texture = RES.getRes("ytanhao_png");
+                //useless
                 break;
             case TaskStatus.DURING:
                 this._emoji.texture = RES.getRes("gwenhao_png");
                 break;
             case TaskStatus.CAN_SUMBIT:
-                this._emoji.texture = RES.getRes("ywenhao_png");
+                //useless
                 break;
             case TaskStatus.SUBMITTED || TaskStatus.UNACCEPTABLE:
                 this._emoji.texture = RES.getRes(null);

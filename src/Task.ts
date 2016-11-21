@@ -1,4 +1,4 @@
-class Task{
+class Task extends EventEmitter implements TaskConditionContext{
     private _id:string;
     private _name:string;
     private _status:TaskStatus;
@@ -6,7 +6,13 @@ class Task{
     public fromNPCId:string;
     public toNPCId:string;
 
+    public _current:number=0;
+    public _total:number=0;
+
+    //public condition:TaskCondition;
+
     constructor(id: string, name: string, status: TaskStatus, desc: string, fromNpcId: string, toNpcId: string) {
+        super();
         this._id = id;
         this._name = name;
         this._status = status;
@@ -35,4 +41,30 @@ class Task{
         return this._desc;
     }
 
+
+    public get current():number{
+        return this._current;
+    }
+
+    private checkStatus(){
+        if(this.current>this._total){
+            //Error
+        }
+        if(this._status==TaskStatus.DURING&&this.current>=this._total){
+            this._status=TaskStatus.CAN_SUMBIT;
+        }
+    }
+}
+
+
+enum TaskStatus {
+    UNACCEPTABLE,
+    ACCEPTABLE,
+    DURING,
+    CAN_SUMBIT,
+    SUBMITTED
+}
+enum ErrorCode{
+    SUCCESS,
+    FAILED
 }
