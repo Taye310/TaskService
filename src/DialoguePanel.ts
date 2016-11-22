@@ -25,19 +25,19 @@ class DialoguePanel extends egret.DisplayObjectContainer {
 
         this._button.addEventListener(egret.TouchEvent.TOUCH_TAP, this.onButtonClick, this);
         this._button.touchEnabled=true;
-        console.log(TaskService.taskList[0].status);
+        console.log(TaskService.getInstance().taskList[0].status);
     }
 
     private onButtonClick(e: egret.TouchEvent) {
-        console.log(TaskService.taskList[0].status);
-        for (var i = 0; i < TaskService.taskList.length; i++) {
-            switch (TaskService.taskList[i].status) {
+        console.log(TaskService.getInstance().taskList[0].status);
+        for (var i = 0; i < TaskService.getInstance().taskList.length; i++) {
+            switch (TaskService.getInstance().taskList[i].status) {
                 case TaskStatus.ACCEPTABLE:
-                    TaskService.accept(TaskService.taskList[i].id);
+                    TaskService.accept(TaskService.getInstance().taskList[i].id);
                     this._textField.text="已接受！";
                     break;
                 case TaskStatus.CAN_SUMBIT:
-                    TaskService.finish(TaskService.taskList[i].id);
+                    TaskService.finish(TaskService.getInstance().taskList[i].id);
                     this._textField.text="已完成！";
                     break;
             }

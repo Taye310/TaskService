@@ -129,7 +129,7 @@ class Main extends egret.DisplayObjectContainer {
         this.addChild(taskPanel);
 
         for (var i = 0; i < taskList.length; i++) {
-            TaskService.taskList[i] = instance.getTaskByCustomRole(function addTask() {
+            TaskService.getInstance().taskList[i] = instance.getTaskByCustomRole(function addTask() {
                 if (taskList[i].status == TaskStatus.UNACCEPTABLE || taskList[i].status == TaskStatus.SUBMITTED) {
                     taskList[i] == null;
                 }
@@ -140,7 +140,7 @@ class Main extends egret.DisplayObjectContainer {
         var NPC_1 = new NPC("npc_1", 500, 100, "npc_1_png");
         this.addChild(NPC_0);
         this.addChild(NPC_1);
-        console.log(TaskService.taskList[0]);
+        console.log(TaskService.getInstance().taskList[0]);
         // for(var task of taskList){
         //     console.log(task.name);
         // }

@@ -24,8 +24,8 @@ class TaskPanel extends egret.DisplayObjectContainer implements Observer {
     }
 
     public onChange(task: Task) {
-        for (var i = 0; i < TaskService.taskList.length; i++) {
-            switch (TaskService.taskList[i].status) {
+        for (var i = 0; i < TaskService.getInstance().taskList.length; i++) {
+            switch (TaskService.getInstance().taskList[i].status) {
                 case TaskStatus.DURING:
                     this.textField.text = task.name + "during";
                     break;

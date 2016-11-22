@@ -9,8 +9,8 @@ class EventEmitter {
 }
 
 class TaskService extends EventEmitter implements Observer{
-    private static observerList=new Array<Observer>();
-    public static taskList=new Array<Task>();
+    private observerList=new Array<Observer>();
+    public  taskList=new Array<Task>();
     private static instance: TaskService = null;
     
     constructor() {
@@ -32,7 +32,7 @@ class TaskService extends EventEmitter implements Observer{
         if (!id) {
             return ErrorCode.FAILED;
         }
-        let task= TaskService.taskList[id];
+        let task= TaskService.getInstance().taskList[id];
         
         if (task.id == id) {
             task.status = TaskStatus.DURING;
@@ -50,7 +50,7 @@ class TaskService extends EventEmitter implements Observer{
         if (!id) {
             return ErrorCode.FAILED;
         }
-        let task = TaskService.taskList[id];
+        let task = TaskService.getInstance().taskList[id];
         if (task.id == id) {
             task.status = TaskStatus.SUBMITTED;
             TaskService.notify(task);
@@ -66,17 +66,17 @@ class TaskService extends EventEmitter implements Observer{
         return rule();
     }
     private static notify(task:Task): void {
-        for (var observer of this.observerList) {
+        for (var observer of TaskService.getInstance().observerList) {
             observer.onChange(task);
         }
-        console.log(TaskService.taskList[0].status);
+        console.log(TaskService.getInstance().taskList[0].status);
     }
 
     public static addObserver(observer: Observer) {
-        for (var i = 0; i < TaskService.observerList.length; i++) {
-            if (observer == TaskService.observerList[i])
+        for (var i = 0; i < TaskService.getInstance().observerList.length; i++) {
+            if (observer == TaskService.getInstance().observerList[i])
                 return ErrorCode.FAILED;
         }
-        TaskService.observerList.push(observer);
+        TaskService.getInstance().observerList.push(observer);
     }
 }

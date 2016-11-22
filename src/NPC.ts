@@ -17,8 +17,8 @@ class NPC extends egret.DisplayObjectContainer implements Observer {
         this._emoji.scaleY = 2;
         this._emoji.addEventListener(egret.TouchEvent.TOUCH_TAP, this.onNPCClick, this);
         this._chara.addEventListener(egret.TouchEvent.TOUCH_TAP, this.onNPCClick, this);
-        for (var i = 0; i < TaskService.taskList.length; i++) {
-            if (this._id == TaskService.taskList[i].fromNPCId) {
+        for (var i = 0; i < TaskService.getInstance().taskList.length; i++) {
+            if (this._id == TaskService.getInstance().taskList[i].fromNPCId) {
                 this._emoji.texture = RES.getRes("ytanhao_png");
                 console.log("emoji")
             }
@@ -35,8 +35,8 @@ class NPC extends egret.DisplayObjectContainer implements Observer {
     }
 
     private onNPCClick(e: egret.TouchEvent) {
-        for (var i = 0; i < TaskService.taskList.length; i++) {
-            switch (TaskService.taskList[i].status) {
+        for (var i = 0; i < TaskService.getInstance().taskList.length; i++) {
+            switch (TaskService.getInstance().taskList[i].status) {
                 case TaskStatus.ACCEPTABLE:
                     var dialogPanel = new DialoguePanel(this._chara);
                     this.addChild(dialogPanel);
@@ -56,11 +56,11 @@ class NPC extends egret.DisplayObjectContainer implements Observer {
                     break;
                 case TaskStatus.DURING:
                     this._emoji.texture = RES.getRes("ywenhao_png");
-                    TaskService.taskList[i].status = TaskStatus.CAN_SUMBIT;  
+                    TaskService.getInstance().taskList[i].status = TaskStatus.CAN_SUMBIT;  
                     break;
             }
         }
-        console.log(TaskService.taskList[0].status);
+        console.log(TaskService.getInstance().taskList[0].status);
     }
     public onChange(task: Task) {
         switch (task.status) {
