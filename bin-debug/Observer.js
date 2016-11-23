@@ -17,8 +17,8 @@ var TaskPanel = (function (_super) {
     }
     var d = __define,c=TaskPanel,p=c.prototype;
     p.onChange = function (task) {
-        for (var i = 0; i < TaskService.taskList.length; i++) {
-            switch (TaskService.taskList[i].status) {
+        for (var i = 0; i < TaskService.getInstance().taskList.length; i++) {
+            switch (TaskService.getInstance().taskList[i].status) {
                 case TaskStatus.DURING:
                     this.textField.text = task.name + "during";
                     break;

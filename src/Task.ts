@@ -9,9 +9,9 @@ class Task extends EventEmitter implements TaskConditionContext{
     public _current:number=0;
     public _total:number=0;
 
-    //public condition:TaskCondition;
+    public _condition:TaskCondition;
 
-    constructor(id: string, name: string, status: TaskStatus, desc: string, fromNpcId: string, toNpcId: string) {
+    constructor(id: string, name: string, status: TaskStatus, desc: string, fromNpcId: string, toNpcId: string,condition:TaskCondition) {
         super();
         this._id = id;
         this._name = name;
@@ -19,6 +19,7 @@ class Task extends EventEmitter implements TaskConditionContext{
         this._desc = desc;
         this.fromNPCId = fromNpcId;
         this.toNPCId = toNpcId;
+        this._condition=condition;
     }
 
     public get id(): string {

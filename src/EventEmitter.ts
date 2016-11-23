@@ -1,4 +1,4 @@
-class EventEmitter {
+class EventEmitter extends egret.DisplayObjectContainer{
 
     addObserver(observer: Observer){
 
@@ -28,7 +28,7 @@ class TaskService extends EventEmitter implements Observer{
         
     }
     
-    static accept(id: string) {
+     accept(id: string) {
         if (!id) {
             return ErrorCode.FAILED;
         }
@@ -46,7 +46,7 @@ class TaskService extends EventEmitter implements Observer{
 
     }
 
-    static finish(id: string) {
+     finish(id: string) {
         if (!id) {
             return ErrorCode.FAILED;
         }
@@ -69,7 +69,7 @@ class TaskService extends EventEmitter implements Observer{
         for (var observer of TaskService.getInstance().observerList) {
             observer.onChange(task);
         }
-        console.log(TaskService.getInstance().taskList[0].status);
+        //console.log(TaskService.getInstance().taskList[0].status);
     }
 
     public static addObserver(observer: Observer) {

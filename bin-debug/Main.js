@@ -105,15 +105,17 @@ var Main = (function (_super) {
         this.bg.texture = RES.getRes("bg_jpg");
         this.addChild(this.bg);
         var taskList = new Array();
-        taskList[0] = new Task("0", "对话任务", TaskStatus.ACCEPTABLE, "desc", "npc_0", "npc_1");
+        taskList[0] = new Task("0", "对话任务", TaskStatus.ACCEPTABLE, "desc", "npc_0", "npc_1", new NPCTalkTaskCondition());
+        taskList[1] = new Task("1", "杀十个白玉昆", TaskStatus.UNACCEPTABLE, "desc", "npc_1", "npc_0", new KillMonsterTaskCondition());
         var instance = TaskService.getInstance(); //danli
         var taskPanel = new TaskPanel();
         this.addChild(taskPanel);
         for (var i = 0; i < taskList.length; i++) {
-            TaskService.taskList[i] = instance.getTaskByCustomRole(function addTask() {
+            TaskService.getInstance().taskList[i] = instance.getTaskByCustomRole(function addTask() {
                 if (taskList[i].status == TaskStatus.UNACCEPTABLE || taskList[i].status == TaskStatus.SUBMITTED) {
                     taskList[i] == null;
                 }
+                console.log(TaskService.getInstance().taskList[1]);
                 return taskList[i];
             });
         }
@@ -121,10 +123,24 @@ var Main = (function (_super) {
         var NPC_1 = new NPC("npc_1", 500, 100, "npc_1_png");
         this.addChild(NPC_0);
         this.addChild(NPC_1);
-        console.log(TaskService.taskList[0]);
+        console.log(TaskService.getInstance().taskList[0]);
         // for(var task of taskList){
         //     console.log(task.name);
         // }
+        var killButton = new egret.TextField;
+        killButton.x = 300;
+        killButton.y = 1000;
+        killButton.text = "KILL MONSTER!!";
+        this.addChild(killButton);
+        killButton.addEventListener(egret.TouchEvent.TOUCH_TAP, this.onButtonClick, this);
+        killButton.touchEnabled = true;
+    };
+    p.onButtonClick = function (e) {
+        TaskService.getInstance().taskList[1]._current++;
+        console.log(TaskService.getInstance().taskList[1]._current);
+        if (TaskService.getInstance().taskList[1]._current == 10) {
+            TaskService.getInstance().finish(TaskService.getInstance().taskList[1].id);
+        }
     };
     /**
      * 根据name关键字创建一个Bitmap对象。name属性请参考resources/resource.json配置文件的内容。

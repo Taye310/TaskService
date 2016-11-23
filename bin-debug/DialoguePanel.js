@@ -24,19 +24,19 @@ var DialoguePanel = (function (_super) {
         this.addChild(this._button);
         this._button.addEventListener(egret.TouchEvent.TOUCH_TAP, this.onButtonClick, this);
         this._button.touchEnabled = true;
-        console.log(TaskService.taskList[0].status);
+        console.log(TaskService.getInstance().taskList[0].status);
     }
     var d = __define,c=DialoguePanel,p=c.prototype;
     p.onButtonClick = function (e) {
-        console.log(TaskService.taskList[0].status);
-        for (var i = 0; i < TaskService.taskList.length; i++) {
-            switch (TaskService.taskList[i].status) {
+        console.log(TaskService.getInstance().taskList[0].status);
+        for (var i = 0; i < TaskService.getInstance().taskList.length; i++) {
+            switch (TaskService.getInstance().taskList[i].status) {
                 case TaskStatus.ACCEPTABLE:
-                    TaskService.accept(TaskService.taskList[i].id);
-                    this._textField.text = "已接受！";
+                    TaskService.getInstance().accept(TaskService.getInstance().taskList[i].id);
+                    this._textField.text = "已接受！\n去找npc1说话吧！\n把问号点成金色";
                     break;
                 case TaskStatus.CAN_SUMBIT:
-                    TaskService.finish(TaskService.taskList[i].id);
+                    TaskService.getInstance().finish(TaskService.getInstance().taskList[i].id);
                     this._textField.text = "已完成！";
                     break;
             }

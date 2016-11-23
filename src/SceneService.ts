@@ -11,7 +11,7 @@ class SenceService extends EventEmitter{
 class MockKillMonsterButton extends SenceService{
     
 
-    onButtonClick(){
+    public onButtonClick(e:egret.TouchEvent){
         
     }
 }

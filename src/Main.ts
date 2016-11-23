@@ -122,7 +122,8 @@ class Main extends egret.DisplayObjectContainer {
         this.addChild(this.bg);
 
         var taskList=new Array<Task>();
-        taskList[0] = new Task("0", "对话任务", TaskStatus.ACCEPTABLE, "desc", "npc_0", "npc_1");
+        taskList[0] = new Task("0", "对话任务", TaskStatus.ACCEPTABLE, "desc", "npc_0", "npc_1",new NPCTalkTaskCondition());
+        taskList[1] = new Task("1", "杀十个白玉昆", TaskStatus.UNACCEPTABLE, "desc", "npc_1", "npc_0",new KillMonsterTaskCondition());
         var instance = TaskService.getInstance();//danli
 
         var taskPanel = new TaskPanel();
@@ -133,6 +134,7 @@ class Main extends egret.DisplayObjectContainer {
                 if (taskList[i].status == TaskStatus.UNACCEPTABLE || taskList[i].status == TaskStatus.SUBMITTED) {
                     taskList[i] == null;
                 }
+                console.log(TaskService.getInstance().taskList[1])
                 return taskList[i];
             });
         }
@@ -144,6 +146,22 @@ class Main extends egret.DisplayObjectContainer {
         // for(var task of taskList){
         //     console.log(task.name);
         // }
+
+        var killButton=new egret.TextField;
+        killButton.x=300;
+        killButton.y=1000;
+        killButton.text="KILL MONSTER!!";
+        this.addChild(killButton);
+        killButton.addEventListener(egret.TouchEvent.TOUCH_TAP, this.onButtonClick, this);
+        killButton.touchEnabled=true;
+    }
+
+    private onButtonClick(e:egret.TouchEvent){
+        TaskService.getInstance().taskList[1]._current++;
+        console.log(TaskService.getInstance().taskList[1]._current)
+        if(TaskService.getInstance().taskList[1]._current==10){
+            TaskService.getInstance().finish(TaskService.getInstance().taskList[1].id);
+        }
     }
 
     /**

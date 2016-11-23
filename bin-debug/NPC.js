@@ -16,8 +16,8 @@ var NPC = (function (_super) {
         this._emoji.scaleY = 2;
         this._emoji.addEventListener(egret.TouchEvent.TOUCH_TAP, this.onNPCClick, this);
         this._chara.addEventListener(egret.TouchEvent.TOUCH_TAP, this.onNPCClick, this);
-        for (var i = 0; i < TaskService.taskList.length; i++) {
-            if (this._id == TaskService.taskList[i].fromNPCId) {
+        for (var i = 0; i < TaskService.getInstance().taskList.length; i++) {
+            if (this._id == TaskService.getInstance().taskList[i].fromNPCId) {
                 this._emoji.texture = RES.getRes("ytanhao_png");
                 console.log("emoji");
             }
@@ -31,8 +31,8 @@ var NPC = (function (_super) {
     }
     var d = __define,c=NPC,p=c.prototype;
     p.onNPCClick = function (e) {
-        for (var i = 0; i < TaskService.taskList.length; i++) {
-            switch (TaskService.taskList[i].status) {
+        for (var i = 0; i < TaskService.getInstance().taskList.length; i++) {
+            switch (TaskService.getInstance().taskList[i].status) {
                 case TaskStatus.ACCEPTABLE:
                     var dialogPanel = new DialoguePanel(this._chara);
                     this.addChild(dialogPanel);
@@ -50,11 +50,11 @@ var NPC = (function (_super) {
                     break;
                 case TaskStatus.DURING:
                     this._emoji.texture = RES.getRes("ywenhao_png");
-                    TaskService.taskList[i].status = TaskStatus.CAN_SUMBIT;
+                    TaskService.getInstance().taskList[i].status = TaskStatus.CAN_SUMBIT;
                     break;
             }
         }
-        console.log(TaskService.taskList[0].status);
+        console.log(TaskService.getInstance().taskList[0].status);
     };
     p.onChange = function (task) {
         switch (task.status) {

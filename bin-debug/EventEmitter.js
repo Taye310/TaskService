@@ -1,5 +1,7 @@
-var EventEmitter = (function () {
+var EventEmitter = (function (_super) {
+    __extends(EventEmitter, _super);
     function EventEmitter() {
+        _super.apply(this, arguments);
     }
     var d = __define,c=EventEmitter,p=c.prototype;
     p.addObserver = function (observer) {
@@ -7,12 +9,14 @@ var EventEmitter = (function () {
     p.notify = function (task) {
     };
     return EventEmitter;
-}());
+}(egret.DisplayObjectContainer));
 egret.registerClass(EventEmitter,'EventEmitter');
 var TaskService = (function (_super) {
     __extends(TaskService, _super);
     function TaskService() {
         _super.call(this);
+        this.observerList = new Array();
+        this.taskList = new Array();
     }
     var d = __define,c=TaskService,p=c.prototype;
     //danli
@@ -24,11 +28,11 @@ var TaskService = (function (_super) {
     };
     p.onChange = function (task) {
     };
-    TaskService.accept = function (id) {
+    p.accept = function (id) {
         if (!id) {
             return ErrorCode.FAILED;
         }
-        var task = TaskService.taskList[id];
+        var task = TaskService.getInstance().taskList[id];
         if (task.id == id) {
             task.status = TaskStatus.DURING;
             TaskService.notify(task);
@@ -38,11 +42,11 @@ var TaskService = (function (_super) {
             return ErrorCode.FAILED;
         }
     };
-    TaskService.finish = function (id) {
+    p.finish = function (id) {
         if (!id) {
             return ErrorCode.FAILED;
         }
-        var task = TaskService.taskList[id];
+        var task = TaskService.getInstance().taskList[id];
         if (task.id == id) {
             task.status = TaskStatus.SUBMITTED;
             TaskService.notify(task);
@@ -56,21 +60,19 @@ var TaskService = (function (_super) {
         return rule();
     };
     TaskService.notify = function (task) {
-        for (var _i = 0, _a = this.observerList; _i < _a.length; _i++) {
+        for (var _i = 0, _a = TaskService.getInstance().observerList; _i < _a.length; _i++) {
             var observer = _a[_i];
             observer.onChange(task);
         }
-        console.log(TaskService.taskList[0].status);
+        //console.log(TaskService.getInstance().taskList[0].status);
     };
     TaskService.addObserver = function (observer) {
-        for (var i = 0; i < TaskService.observerList.length; i++) {
-            if (observer == TaskService.observerList[i])
+        for (var i = 0; i < TaskService.getInstance().observerList.length; i++) {
+            if (observer == TaskService.getInstance().observerList[i])
                 return ErrorCode.FAILED;
         }
-        TaskService.observerList.push(observer);
+        TaskService.getInstance().observerList.push(observer);
     };
-    TaskService.observerList = new Array();
-    TaskService.taskList = new Array();
     TaskService.instance = null;
     return TaskService;
 }(EventEmitter));

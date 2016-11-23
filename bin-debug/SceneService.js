@@ -15,7 +15,7 @@ var MockKillMonsterButton = (function (_super) {
         _super.apply(this, arguments);
     }
     var d = __define,c=MockKillMonsterButton,p=c.prototype;
-    p.onButtonClick = function () {
+    p.onButtonClick = function (e) {
     };
     return MockKillMonsterButton;
 }(SenceService));

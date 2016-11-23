@@ -1,7 +1,6 @@
 var Task = (function (_super) {
     __extends(Task, _super);
-    //public condition:TaskCondition;
-    function Task(id, name, status, desc, fromNpcId, toNpcId) {
+    function Task(id, name, status, desc, fromNpcId, toNpcId, condition) {
         _super.call(this);
         this._current = 0;
         this._total = 0;
@@ -11,6 +10,7 @@ var Task = (function (_super) {
         this._desc = desc;
         this.fromNPCId = fromNpcId;
         this.toNPCId = toNpcId;
+        this._condition = condition;
     }
     var d = __define,c=Task,p=c.prototype;
     d(p, "id"

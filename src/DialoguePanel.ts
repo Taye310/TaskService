@@ -33,11 +33,11 @@ class DialoguePanel extends egret.DisplayObjectContainer {
         for (var i = 0; i < TaskService.getInstance().taskList.length; i++) {
             switch (TaskService.getInstance().taskList[i].status) {
                 case TaskStatus.ACCEPTABLE:
-                    TaskService.accept(TaskService.getInstance().taskList[i].id);
-                    this._textField.text="已接受！";
+                    TaskService.getInstance().accept(TaskService.getInstance().taskList[i].id);
+                    this._textField.text="已接受！\n去找npc1说话吧！\n把问号点成金色";
                     break;
                 case TaskStatus.CAN_SUMBIT:
-                    TaskService.finish(TaskService.getInstance().taskList[i].id);
+                    TaskService.getInstance().finish(TaskService.getInstance().taskList[i].id);
                     this._textField.text="已完成！";
                     break;
             }
